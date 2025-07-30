@@ -3,7 +3,6 @@
     padding: 0;
     box-sizing: border-box;
 }
-
 body {
     font-family: 'Inter', sans-serif;
     line-height: 1.6;
@@ -13,7 +12,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-image: url('Group 513788.svg');
+    background-image: url('assets/Group 513788.svg');
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
