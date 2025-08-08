@@ -3,12 +3,87 @@ html, body {
     padding: 0;
     height: 100%;
     width: 100%;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
   }
   
   .containerPDF {
     display: flex;
+    flex-direction: column;
     width: 100vw;
     height: 100vh;
     overflow: hidden;
-    background: gray;
+    background: #f5f5f5;
+  }
+
+  .pdf-container {
+    flex: 1;
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  .loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 38, 72, 0.9); /* Using primary color with opacity */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.5s ease;
+  }
+  
+  .loading-hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  .progress-container {
+    width: 80%;
+    max-width: 300px;
+    height: 8px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(to right, #830A5E, #C721A0);
+    width: 0%;
+    transition: width 0.5s ease;
+  }
+  
+  .loading-text {
+    color: white;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    text-align: center;
+    margin-top: 16px;
+    font-weight: 300;
+  }
+
+  @media (max-width: 768px) {
+    html, body {
+      -webkit-overflow-scrolling: touch;
+    }
   }

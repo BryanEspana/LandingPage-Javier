@@ -3,10 +3,107 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Mi CV</title>
   <link rel="stylesheet" href="visualizadorPDF.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body class="containerPDF">
-  <iframe src="../assets/CV_Mazariegos_Javier.pdf" width="100%" height="100%" style="border: none;"></iframe>
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="progress-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="loading-text" id="loadingText">Preparando contenido...</div>
+  </div>
+  
+  <div class="pdf-container">
+    <iframe src="../assets/CV_Mazariegos_Javier.pdf" id="pdfFrame"></iframe>
+  </div>
+  
+  <script>
+    // Loading messages
+    const loadingMessages = [
+      "Preparando contenido...",
+      "Cargando CV...",
+      "Casi listo...",
+      "Optimizando visualización...",
+      "¡Listo para explorar!"
+    ];
+    
+    // Elements
+    const iframe = document.getElementById('pdfFrame');
+    const progressBar = document.getElementById('progressBar');
+    const loadingText = document.getElementById('loadingText');
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    
+    // Track loading progress
+    let progress = 0;
+    let messageIndex = 0;
+    let loadingInterval;
+    
+    // Function to update loading UI
+    function updateLoadingUI() {
+      // Update progress bar
+      progressBar.style.width = progress + '%';
+      
+      // Update message based on progress
+      const messageProgress = Math.floor(progress / 25);
+      if (messageProgress !== messageIndex && messageProgress < loadingMessages.length) {
+        messageIndex = messageProgress;
+        loadingText.textContent = loadingMessages[messageIndex];
+      }
+      
+      // When complete
+      if (progress >= 100) {
+        clearInterval(loadingInterval);
+        setTimeout(() => {
+          loadingOverlay.classList.add('loading-hidden');
+        }, 500);
+      }
+    }
+    
+    // Simulate loading with a more realistic pattern
+    function startLoading() {
+      // Initial progress
+      progress = 5;
+      updateLoadingUI();
+      
+      // Fast initial progress
+      loadingInterval = setInterval(() => {
+        // Slow down as we approach 80%
+        if (progress < 80) {
+          progress += Math.random() * 10;
+        } else if (progress < 95) {
+          progress += Math.random() * 1;
+        }
+        
+        if (progress > 95) progress = 95; // Cap at 95% until iframe loads
+        updateLoadingUI();
+      }, 300);
+    }
+    
+    // Start loading animation
+    startLoading();
+    
+    // When iframe loads
+    iframe.onload = function() {
+      // Complete the loading
+      progress = 100;
+      updateLoadingUI();
+    };
+    
+    // Handle errors - set a timeout to detect if iframe doesn't load
+    setTimeout(() => {
+      if (progress < 100) {
+        // If we're still not at 100%, show an error
+        if (!loadingOverlay.classList.contains('loading-hidden')) {
+          loadingText.textContent = "El PDF está tardando en cargar. Por favor espere...";
+        }
+      }
+    }, 10000); // 10 seconds timeout
+  </script>
 </body>
 </html>

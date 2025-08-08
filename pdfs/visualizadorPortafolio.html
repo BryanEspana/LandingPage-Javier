@@ -2,10 +2,122 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Mi Portafolio</title>
   <link rel="stylesheet" href="visualizadorPDF.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body class="containerPDF">
-  <iframe src="../assets/PORTAFOLIO_Mazariegos_Javier.pdf" width="100%" height="100%" style="border: none;"></iframe>
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="progress-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="loading-text" id="loadingText">Preparando contenido...</div>
+  </div>
+  
+  <div class="pdf-container" id="pdfContainer">
+    <!-- PDF iframe will be inserted here via JavaScript -->
+  </div>
+  
+  <script>
+    // Loading messages
+    const loadingMessages = [
+      "Preparando contenido...",
+      "Cargando portafolio...",
+      "Casi listo...",
+      "Optimizando visualización...",
+      "¡Listo para explorar!"
+    ];
+    
+    // Elements
+    const pdfContainer = document.getElementById('pdfContainer');
+    const progressBar = document.getElementById('progressBar');
+    const loadingText = document.getElementById('loadingText');
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    
+    // PDF file path
+    const pdfPath = "../assets/PORTAFOLIO_Mazariegos_Javier.pdf";
+    
+    // Track loading progress
+    let progress = 0;
+    let messageIndex = 0;
+    
+    // Function to update loading UI
+    function updateLoadingUI() {
+      // Update progress bar
+      progressBar.style.width = progress + '%';
+      
+      // Update message based on progress
+      const messageProgress = Math.floor(progress / 25);
+      if (messageProgress !== messageIndex && messageProgress < loadingMessages.length) {
+        messageIndex = messageProgress;
+        loadingText.textContent = loadingMessages[messageIndex];
+      }
+      
+      // When complete
+      if (progress >= 100) {
+        setTimeout(() => {
+          loadingOverlay.classList.add('loading-hidden');
+        }, 500);
+      }
+    }
+    
+    // Create XMLHttpRequest to track actual download progress
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', pdfPath, true);
+    xhr.responseType = 'blob';
+    
+    // Track download progress
+    xhr.onprogress = function(event) {
+      if (event.lengthComputable) {
+        progress = Math.round((event.loaded / event.total) * 100);
+        updateLoadingUI();
+      }
+    };
+    
+    // When PDF is fully loaded
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        // Create object URL from the PDF blob
+        const blob = new Blob([xhr.response], { type: 'application/pdf' });
+        const objectUrl = URL.createObjectURL(blob);
+        
+        // Create iframe and set its source to the object URL
+        const iframe = document.createElement('iframe');
+        iframe.id = 'pdfFrame';
+        iframe.src = objectUrl;
+        pdfContainer.appendChild(iframe);
+        
+        // Set progress to 100% when iframe is loaded
+        iframe.onload = function() {
+          progress = 100;
+          updateLoadingUI();
+          
+          // Try to inject scroll listener into the PDF iframe
+          try {
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+            // Additional iframe interactions could be added here
+          } catch(e) {
+            // If we can't access iframe content due to same-origin policy
+            console.log('Cannot access iframe content due to same-origin policy');
+          }
+        };
+      } else {
+        // Handle error
+        loadingText.textContent = "Error al cargar el PDF. Intente nuevamente.";
+      }
+    };
+    
+    // Handle errors
+    xhr.onerror = function() {
+      loadingText.textContent = "Error de conexión. Intente nuevamente.";
+    };
+    
+    // Start the request
+    xhr.send();
+  </script>
 </body>
 </html>

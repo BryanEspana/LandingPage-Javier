@@ -4,32 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Javier Mazariegos - Diseñador UX/UI</title>
-    <link rel="stylesheet" href="cv.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#002648',
+                        accent: {
+                            100: '#C721A0',
+                            200: '#830A5E'
+                        }
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body>
-    <main class="container">
-        <div class="content">
-            <div class="intro">
-                <div class="row">
-                    <p class="greeting">👋🏽</p>
-                    <h1>Hola,<br> <span>soy Javier Mazariegos</span></h1>
+<body class="font-inter bg-primary min-h-screen flex items-center justify-center p-4 md:p-8" style="background-image: url('assets/Group 513788.svg'); background-repeat: no-repeat; background-position: center center; background-size: cover;">
+    <main class="w-full max-w-7xl flex flex-col lg:flex-row overflow-hidden">
+        <!-- Content Section -->
+        <div class="flex-1 flex flex-col justify-center">
+            <div class="max-w-lg px-2 md:px-4">
+                <!-- Header with greeting -->
+                <div class="flex flex-row items-start gap-4">
+                    <p class="text-5xl md:text-6xl mb-4">👋🏽</p>
+                    <h1 class="text-2xl md:text-3xl lg:text-4xl font-normal text-white mt-4 mb-6 leading-tight">
+                        Hola,<br> <span class="text-xl md:text-2xl lg:text-3xl font-extralight text-white">soy Javier Mazariegos</span>
+                    </h1>
                 </div>
-                    <p class="tagline">🎯 Diseño experiencias que resuelven, conectan y generan valor.</p>
-                    <p class="description">Este es mi CV y portafolio: proyectos reales,<br>decisiones de diseño y un enfoque estratégico de principio a fin.</p>
                 
-                <div class="buttons">
-                    <a href="pdfs/visualizadorPDF.html" class="btn primaryGradiant" target="_blank">🚀 Ver mi trayectoria CV</a>
-                    <a href="pdfs/visualizadorPortafolio.html" class="btn primaryGradiant">🧩 Explorar portafolio UX/UI</a>
+                <!-- Tagline -->
+                <p class="text-2xl md:text-3xl lg:text-4xl font-bold text-white mt-10 mb-6">🎯 Diseño experiencias que resuelven, conectan y generan valor.</p>
+                
+                <!-- Mobile Image (only visible on mobile) -->
+                <div class="block lg:hidden my-8">
+                    <div class="flex flex-col w-full relative items-center">
+                        <img src="assets/imagen1.png" alt="Imagen de portafolio" class="w-[90%] object-contain max-h-[40vh]">
+                    </div>
+                </div>
+                
+                <!-- Description -->
+                <p class="text-base md:text-lg text-white mt-4 md:mt-8 lg:mt-16 mb-10">Este es mi CV y portafolio: proyectos reales,<br class="hidden lg:block">decisiones de diseño y un enfoque estratégico de principio a fin.</p>
+                
+                <!-- Buttons -->
+                <div class="flex flex-col md:flex-row gap-4 mt-4">
+                    <a href="pdfs/visualizadorPDF.html" class="px-6 py-3 rounded-lg font-light text-base md:text-lg text-white inline-flex items-center justify-center transition-all duration-300 bg-gradient-to-r from-accent-200 to-accent-100 transition-all ease-in-out duration-300 hover:from-accent-100 hover:to-accent-200 hover:shadow-lg hover:-translate-y-1 hover:scale-105 whitespace-nowrap">🚀 Ver mi trayectoria CV</a>
+                    <a href="pdfs/visualizadorPortafolio.html" class="px-6 py-3 rounded-lg font-light text-base md:text-lg text-white inline-flex items-center justify-center transition-all duration-300 bg-gradient-to-r from-accent-200 to-accent-100 transition-all ease-in-out duration-300 hover:from-accent-100 hover:to-accent-200 hover:shadow-lg hover:-translate-y-1 hover:scale-105 whitespace-nowrap">🧩 Explorar portafolio UX/UI</a>
                 </div>
             </div>
         </div>
         
-        <div class="images">
-            <div class="image-container">
-                <img src="assets/imagen1.png" alt="Imagen de portafolio" class="portfolio-img">
+        <!-- Desktop Image (only visible on desktop) -->
+        <div class="hidden lg:block">
+            <div class="pl-8 flex flex-col w-full max-w-xl relative items-center">
+                <img src="assets/imagen1.png" alt="Imagen de portafolio" class="w-[90%] object-contain max-h-screen">
             </div>
         </div>
     </main>
